@@ -2,10 +2,15 @@ package pl.mdabkowski;
 
 
 public class Poisson {
-    public static int[] calculate(int k, double lambda){
-        int[] result = new int[k];
+    public static double[] calculate(int k, double lambda){
+        double[] result = new double[k];
         for(int i =0;i<k;i++){
-            result[i] = (int) (poisson(i, lambda)*100);
+            if(poisson(i, lambda)*100<1) {
+                result[i]=0;
+
+            }else{
+                result[i] = poisson(i, lambda)*100;
+            }
         }
         return result;
     }

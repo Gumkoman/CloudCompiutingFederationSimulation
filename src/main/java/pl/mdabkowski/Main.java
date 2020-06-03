@@ -8,22 +8,28 @@ import org.jfree.data.statistics.HistogramDataset;
 import java.io.File;
 import java.io.IOException;
 
+import static pl.mdabkowski.Poisson.calculate;
+
+
+
 public class Main {
+    public static int TIME_SIZE = 20;
     public static void main(String[] args) throws IOException {
-    int[] test = new int[20];
-    test = Poisson.calculate(20,4);
-    double[] result = new double[test.length];
-    Chart chart = new Chart();
-    result = convertToDouble(test);
-    chart.createChart(result,"test","testy wykresow","os x","os y");
+
+        Cloud c1 = new Cloud(10,TIME_SIZE,0.2);
+        showArray(c1.getPoisson());
+        Cloud c2 = new Cloud(8,TIME_SIZE,40);
+        showArray(c2.getPoisson());
+        c2.serviceCheck();
+        c2.showResult();
     }
 
-    public static double[] convertToDouble(int[] test) {
-        double[] result = new double[test.length];
+    public static void showArray(double[] test) {
+
         for(int i =0;i<test.length;i++){
-            result[i] = (double)test[i];
+            System.out.println("dla i:" + i +"wynik to: "+test[i]);
         }
-    return result;
+
     }
 
 }
