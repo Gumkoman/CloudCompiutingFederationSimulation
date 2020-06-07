@@ -1,7 +1,75 @@
 package pl.mdabkowski;
 
+import java.util.List;
+
 public class Cloud {
-    private int resourcesNumber;
+     private int cloudId;
+     private int resourcesNumber;
+     private int[] poisson;
+     private int firstCategoryResourcesNumber;
+     private int secondCategoryResourceNumber;
+     private List<Packet> packetList;
+
+    public List<Packet> getPacketList() {
+        return packetList;
+    }
+
+    public void setPacketList(List<Packet> packetList) {
+        this.packetList = packetList;
+    }
+
+    public Cloud(int cloudId, int resourcesNumber, int timeSize, double lambda) {
+        this.cloudId = cloudId;
+        this.resourcesNumber = resourcesNumber;
+        this.poisson = Poisson.calculate(timeSize,lambda);
+        createPacketList();
+    }
+
+    private void createPacketList() {
+        int numberOfPackets=0;
+        for(int i =0;i<this.poisson.length;i++){
+            if(this.poisson[i]!=0){
+                int packetNumberInCurrentTime = this.poisson[i];
+                for(int j=0;j<packetNumberInCurrentTime;j++){
+                    Packet p = new Packet(cloudId,i,cloudId+i+j);
+                    packetList.add(p);
+                }
+            }
+        }
+    }
+
+    public int getCloudId() {
+        return cloudId;
+    }
+
+    public void setCloudId(int cloudId) {
+        this.cloudId = cloudId;
+    }
+
+    public int getResourcesNumber() {
+        return resourcesNumber;
+    }
+
+    public void setResourcesNumber(int resourcesNumber) {
+        this.resourcesNumber = resourcesNumber;
+    }
+
+    public int getFirstCategoryResourcesNumber() {
+        return firstCategoryResourcesNumber;
+    }
+
+    public void setFirstCategoryResourcesNumber(int firstCategoryResourcesNumber) {
+        this.firstCategoryResourcesNumber = firstCategoryResourcesNumber;
+    }
+
+    public int getSecondCategoryResourceNumber() {
+        return secondCategoryResourceNumber;
+    }
+
+    public void setSecondCategoryResourceNumber(int secondCategoryResourceNumber) {
+        this.secondCategoryResourceNumber = secondCategoryResourceNumber;
+    }
+/*private int resourcesNumber;
     private int resourcesNumberPrivate;
     private int resourcesNumberPublic;
     private int timeSize;
@@ -75,5 +143,5 @@ public class Cloud {
         }
 
     }
-
+*/
 }
