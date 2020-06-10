@@ -1,5 +1,6 @@
 package pl.mdabkowski;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cloud {
@@ -22,20 +23,24 @@ public class Cloud {
         this.cloudId = cloudId;
         this.resourcesNumber = resourcesNumber;
         this.poisson = Poisson.calculate(timeSize,lambda);
-        createPacketList();
+        this.packetList = createPacketList();
     }
 
-    private void createPacketList() {
+    private List<Packet> createPacketList() {
         int numberOfPackets=0;
-        for(int i =0;i<this.poisson.length;i++){
+        List<Packet> packetList2= new ArrayList<Packet>();
+        for(int i = 0; i<this.poisson.length; i++){
             if(this.poisson[i]!=0){
                 int packetNumberInCurrentTime = this.poisson[i];
                 for(int j=0;j<packetNumberInCurrentTime;j++){
                     Packet p = new Packet(cloudId,i,cloudId+i+j);
-                    packetList.add(p);
+                    System.out.println("|"+p.getStartTime()+p.getCloudId()+p.getPacketId() +"|");
+
+                    packetList2.add(p);
                 }
             }
         }
+        return packetList2;
     }
 
     public int getCloudId() {

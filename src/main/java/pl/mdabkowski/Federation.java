@@ -1,24 +1,56 @@
 package pl.mdabkowski;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static pl.mdabkowski.Main.TIME_SIZE;
+
 
 public class Federation {
     private int commonPoolResources;
+
+    public List<Cloud> getCloudFederationList() {
+        return cloudFederationList;
+    }
+
+    public void setCloudFederationList(List<Cloud> cloudFederationList) {
+        this.cloudFederationList = cloudFederationList;
+    }
+
     private List<Cloud> cloudFederationList;
     boolean debug = true;
+    public Federation(){
+        this.cloudFederationList = new ArrayList<Cloud>();
+
+    }
     void addNewCloud(Cloud c){
         cloudFederationList.add(c);
     }
     void setCommonPoolResources(int cpResources){
         this.commonPoolResources = cpResources;
     }
-    void setup(){
+    void setup(String option){
+        if(option == "najwiekszaMozliwaWartosc"){
+            int result=cloudFederationList.get(0).getResourcesNumber();
+            for(int i = 0; i< cloudFederationList.size();i++){
+                if(result>cloudFederationList.get(i).getResourcesNumber()){
+                    result  =cloudFederationList.get(i).getResourcesNumber();
+                }
+            }
+            setCommonPoolResources(result);
+            for(int i=0; i< cloudFederationList.size();i++){
+                int privateResources = cloudFederationList.get(i).getResourcesNumber()-commonPoolResources;
+
+                cloudFederationList.get(i).setFirstCategoryResourcesNumber(privateResources);
+                cloudFederationList.get(i).setSecondCategoryResourceNumber(0);
+            }
+        }
+    }
+    void setup(String option, double value){
 
     }
+
     void simulate(){
-        List<Packet> packetsInput = null;
+        List<Packet> packetsInput = new ArrayList<Packet>();
         for(int i =0;i<cloudFederationList.size();i++){
             for(int j = 0;j<cloudFederationList.get(i).getPacketList().size();j++){
                 packetsInput.add(cloudFederationList.get(i).getPacketList().get(j));
@@ -34,8 +66,8 @@ public class Federation {
             secondCategoryResources[i] = cloudFederationList.get(i).getSecondCategoryResourceNumber();
         }
 
-        for(int i = 0;i<TIME_SIZE;i++){
-            List<Packet> currentTimePackets = null;
+        for(int i = 0;i<Constants.TIME_SIZE;i++){
+            List<Packet> currentTimePackets = new ArrayList<Packet>();
             int currentCommonPoolResources = commonPoolResources;
             for(int k = 0; k< cloudFederationList.size();k++){
                 firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
@@ -48,17 +80,18 @@ public class Federation {
                 }
             }
 
-            for(int j=0;j<currentTimePackets.size();j++){
+            for(int j=0;j<firstCategoryResources.length;j++){
+
                 int idCloud = currentTimePackets.get(j).getCloudId();
-                if(firstCategoryResources[i]>0){
-                    firstCategoryResources[i]--;
+                if(firstCategoryResources[j]>0){
+                    firstCategoryResources[j]--;
                     currentTimePackets.get(j).setWasServed(true);
                 }else if(currentCommonPoolResources>0){
                     currentTimePackets.get(j).setWasServed(true);
                     currentCommonPoolResources--;
                 }else if(secondCategoryResources[i]>0){
                     currentTimePackets.get(j).setWasServed(true);
-                    secondCategoryResources[i]--;
+                    secondCategoryResources[j]--;
                 }else{
                     currentTimePackets.get(j).setWasServed(false);
                 }
