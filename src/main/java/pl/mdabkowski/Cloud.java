@@ -3,10 +3,21 @@ package pl.mdabkowski;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.mdabkowski.Constants.TIME_SIZE;
+
 public class Cloud {
      private int cloudId;
      private int resourcesNumber;
-     private int[] poisson;
+
+    public int[] getPoisson() {
+        return poisson;
+    }
+
+    public void setPoisson(int[] poisson) {
+        this.poisson = poisson;
+    }
+
+    private int[] poisson;
      private int firstCategoryResourcesNumber;
      private int secondCategoryResourceNumber;
      private List<Packet> packetList;
@@ -25,7 +36,41 @@ public class Cloud {
         this.poisson = Poisson.calculate(timeSize,lambda);
         this.packetList = createPacketList();
     }
+    public void simulate(){
+        for(int i = 0;i<TIME_SIZE;i++){
+            List<Packet> currentTimePackets = new ArrayList<Packet>();
+            for(int j=0;j<packetList.size();j++){
+                if(packetList.get(j).getStartTime()==i){
+                    currentTimePackets.add(packetList.get(j));
+                }
+            }
+            int resources = resourcesNumber;
+            for(int j=0;j<currentTimePackets.size();j++){
+                if(resources>0){
+                    currentTimePackets.get(j).setWasServed(true);
+                    resources--;
+                }else{
+                    currentTimePackets.get(j).setWasServed(false);
+                    System.out.println("resources"+resources);
+                }
+            }
+        }
+    }
 
+    public void showResult(){
+        int servedPackets=0;
+        int notServedPackets=0;
+
+        for(int i =0;i<packetList.size();i++){
+            if(packetList.get(i).isWasServed()){
+                servedPackets++;
+            }else{
+                notServedPackets++;
+            }
+
+        }
+        System.out.println("Cloud: "+cloudId+" packets number: "+(notServedPackets+servedPackets)+" served packets: "+servedPackets+" not served Packets: "+notServedPackets);
+    }
     private List<Packet> createPacketList() {
         int numberOfPackets=0;
         List<Packet> packetList2= new ArrayList<Packet>();

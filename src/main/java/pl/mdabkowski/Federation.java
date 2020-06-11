@@ -3,6 +3,7 @@ package pl.mdabkowski;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.mdabkowski.Constants.TIME_SIZE;
 
 
 public class Federation {
@@ -65,23 +66,75 @@ public class Federation {
             firstCategoryResources[i] = cloudFederationList.get(i).getFirstCategoryResourcesNumber();
             secondCategoryResources[i] = cloudFederationList.get(i).getSecondCategoryResourceNumber();
         }
+       /* for(int i=0; i<packetsInput.size();i++){
+            System.out.println("Packet"+ packetsInput.get(i).getPacketId()+" of cloud "+packetsInput.get(i).getCloudId()+" Of start time"+packetsInput.get(i).getStartTime());
+        }*/
 
-        for(int i = 0;i<Constants.TIME_SIZE;i++){
+        for(int i=0;i < TIME_SIZE;i++){
+
+            //calculate first category and second category resources in current Time for each cloud
+            List<Packet> currentTimePackets = new ArrayList<Packet>();
+            int currentCommonPoolResources = commonPoolResources;
+            System.out.println("cp"+ currentCommonPoolResources);
+            for(int k = 0; k< cloudFederationList.size();k++){
+                firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
+                secondCategoryResources[k] = cloudFederationList.get(k).getSecondCategoryResourceNumber();
+            }
+            //create Packet list in current time
+            for(int j=0;j<packetsInput.size();j++){
+                if(packetsInput.get(j).getStartTime()==i){
+                    currentTimePackets.add(packetsInput.get(j));
+                }
+            }
+            //if there are packets in current time calculate
+            for(int j=0;j<2;j++) {
+               // System.out.println("For i" + i + "for j " + j);
+                if (currentTimePackets.isEmpty() != true) {
+                    int idCloud = currentTimePackets.get(j).getCloudId();
+                    if (firstCategoryResources[j] > 0) {
+                        firstCategoryResources[j]--;
+                        currentTimePackets.get(j).setWasServed(true);
+                        System.out.println("was served by first");
+                    } else if (currentCommonPoolResources > 0) {
+                        currentTimePackets.get(j).setWasServed(true);
+                        currentCommonPoolResources--;
+                        System.out.println("was served by cp");
+                    } else if (secondCategoryResources[i] > 0) {
+                        currentTimePackets.get(j).setWasServed(true);
+                        secondCategoryResources[j]--;
+                        System.out.println("was served by second");
+                    } else {
+                        currentTimePackets.get(j).setWasServed(false);
+                    }
+                }
+            }
+
+        }
+
+
+
+
+        /*for(int i = 0;i<Constants.TIME_SIZE;i++){
             List<Packet> currentTimePackets = new ArrayList<Packet>();
             int currentCommonPoolResources = commonPoolResources;
             for(int k = 0; k< cloudFederationList.size();k++){
                 firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
                 secondCategoryResources[k] = cloudFederationList.get(k).getSecondCategoryResourceNumber();
             }
-            /* calculating currentTimePackets */
+            /* calculating currentTimePackets *//*
             for(int j=0;j<packetsInput.size();j++){
                 if(packetsInput.get(j).getStartTime()==i){
                     currentTimePackets.add(packetsInput.get(j));
                 }
             }
+            System.out.println("|"+firstCategoryResources+"|");
+            for(int k=0;k<firstCategoryResources.length;k++){
+                System.out.println("|"+firstCategoryResources[k]+"|");
+                System.out.println("|"+secondCategoryResources[k]+"|");
+            }
 
-            for(int j=0;j<firstCategoryResources.length;j++){
-
+            for(int j=0;j<2;j++){
+                System.out.println("For i"+i+"for j "+ j);
                 int idCloud = currentTimePackets.get(j).getCloudId();
                 if(firstCategoryResources[j]>0){
                     firstCategoryResources[j]--;
@@ -95,7 +148,7 @@ public class Federation {
                 }else{
                     currentTimePackets.get(j).setWasServed(false);
                 }
-            }
+            }*/
 
 
         }
@@ -138,5 +191,5 @@ public class Federation {
 
         }
     }
- */
-}
+
+}*/
