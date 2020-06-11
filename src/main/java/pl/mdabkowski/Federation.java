@@ -18,7 +18,7 @@ public class Federation {
     }
 
     private List<Cloud> cloudFederationList;
-    boolean debug = true;
+    boolean debug = false;
     public Federation(){
         this.cloudFederationList = new ArrayList<Cloud>();
 
@@ -74,8 +74,8 @@ public class Federation {
 
             //calculate first category and second category resources in current Time for each cloud
             List<Packet> currentTimePackets = new ArrayList<Packet>();
-            int currentCommonPoolResources = commonPoolResources;
-            System.out.println("cp"+ currentCommonPoolResources);
+            int currentCommonPoolResources = commonPoolResources*cloudFederationList.size();
+            if(debug)System.out.println("cp"+ currentCommonPoolResources);
             for(int k = 0; k< cloudFederationList.size();k++){
                 firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
                 secondCategoryResources[k] = cloudFederationList.get(k).getSecondCategoryResourceNumber();
@@ -84,30 +84,59 @@ public class Federation {
             for(int j=0;j<packetsInput.size();j++){
                 if(packetsInput.get(j).getStartTime()==i){
                     currentTimePackets.add(packetsInput.get(j));
+                    //System.out.println("Pakiet z chmury: "+packetsInput.get(j).getCloudId()+" zaczynajacy sie w czasie"+packetsInput.get(j).getStartTime());
                 }
             }
+
+            for(int j=0;j<currentTimePackets.size();j++){
+                int cloudId = currentTimePackets.get(j).getCloudId();
+                if(firstCategoryResources[cloudId]>0){
+                    currentTimePackets.get(j).setWasServed(true);
+                    firstCategoryResources[cloudId]--;
+                }else if(currentCommonPoolResources>0){
+                    currentTimePackets.get(j).setWasServed(true);
+                    currentCommonPoolResources--;
+                }else if(secondCategoryResources[cloudId]>0){
+                    currentTimePackets.get(j).setWasServed(true);
+                    secondCategoryResources[cloudId]--;
+                }else{
+                    currentTimePackets.get(j).setWasServed(false);
+                }
+
+            }
+
+
+
+            //System.out.println("KTUAS");
             //if there are packets in current time calculate
-            for(int j=0;j<2;j++) {
-               // System.out.println("For i" + i + "for j " + j);
-                if (currentTimePackets.isEmpty() != true) {
-                    int idCloud = currentTimePackets.get(j).getCloudId();
-                    if (firstCategoryResources[j] > 0) {
-                        firstCategoryResources[j]--;
-                        currentTimePackets.get(j).setWasServed(true);
-                        System.out.println("was served by first");
-                    } else if (currentCommonPoolResources > 0) {
-                        currentTimePackets.get(j).setWasServed(true);
-                        currentCommonPoolResources--;
-                        System.out.println("was served by cp");
-                    } else if (secondCategoryResources[i] > 0) {
-                        currentTimePackets.get(j).setWasServed(true);
-                        secondCategoryResources[j]--;
-                        System.out.println("was served by second");
-                    } else {
-                        currentTimePackets.get(j).setWasServed(false);
+            /*for(int j=0;j<cloudFederationList.size();j++) {
+                for(int k=0;k<currentTimePackets.size();k++){
+                    if (currentTimePackets.isEmpty() != true) {
+                        int idCloud = currentTimePackets.get(j).getCloudId();
+                        if (currentTimePackets.get(j).isWasServed()==false) {
+                            if (firstCategoryResources[j] > 0) {
+                                firstCategoryResources[j]--;
+                                currentTimePackets.get(j).setWasServed(true);
+                                if (debug) System.out.println("was served by first");
+                            } else if (currentCommonPoolResources > 0) {
+                                currentTimePackets.get(j).setWasServed(true);
+                                System.out.println("Packet from cloud " + currentTimePackets.get(j).getCloudId() + " start time was " + currentTimePackets.get(j).getStartTime() + " id" + currentTimePackets.get(j).getPacketId() + " object id" + currentTimePackets.get(j).toString());
+                                currentCommonPoolResources--;
+                                if (debug) System.out.println("was served by cp");
+
+                            } else if (secondCategoryResources[j] > 0) {
+                                currentTimePackets.get(j).setWasServed(true);
+                                secondCategoryResources[j]--;
+                                if (debug) System.out.println("was served by second");
+                            } else {
+                                currentTimePackets.get(j).setWasServed(false);
+
+                            }
+                        }
                     }
                 }
-            }
+            }*/
+            if(debug)System.out.print(currentCommonPoolResources+" ");
 
         }
 

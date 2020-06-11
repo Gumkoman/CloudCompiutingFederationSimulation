@@ -51,7 +51,6 @@ public class Cloud {
                     resources--;
                 }else{
                     currentTimePackets.get(j).setWasServed(false);
-                    System.out.println("resources"+resources);
                 }
             }
         }
@@ -79,8 +78,6 @@ public class Cloud {
                 int packetNumberInCurrentTime = this.poisson[i];
                 for(int j=0;j<packetNumberInCurrentTime;j++){
                     Packet p = new Packet(cloudId,i,cloudId+i+j);
-                    System.out.println("|"+p.getStartTime()+p.getCloudId()+p.getPacketId() +"|");
-
                     packetList2.add(p);
                 }
             }

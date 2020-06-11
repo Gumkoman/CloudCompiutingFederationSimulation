@@ -24,7 +24,7 @@ public class Main {
         f1.addNewCloud(c1);
         f1.addNewCloud(c2);
         f1.setup("najwiekszaMozliwaWartosc");
-        System.out.println(f1.getCloudFederationList().get(0).getResourcesNumber());
+        //System.out.println(f1.getCloudFederationList().get(0).getResourcesNumber());
         f1.simulate();
         c1.showResult();
         c2.showResult();
