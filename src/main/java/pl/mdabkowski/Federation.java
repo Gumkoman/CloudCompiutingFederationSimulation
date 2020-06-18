@@ -37,14 +37,25 @@ public class Federation {
                     result  =cloudFederationList.get(i).getResourcesNumber();
                 }
             }
-            setCommonPoolResources(result);
+            setCommonPoolResources(result*cloudFederationList.size());
             for(int i=0; i< cloudFederationList.size();i++){
                 int privateResources = cloudFederationList.get(i).getResourcesNumber()-commonPoolResources;
 
                 cloudFederationList.get(i).setFirstCategoryResourcesNumber(privateResources);
                 cloudFederationList.get(i).setSecondCategoryResourceNumber(0);
             }
+        }else if(option == "FC"){
+            int result=0;
+            for(int i =0;i<cloudFederationList.size();i++){
+                result+=cloudFederationList.get(i).getResourcesNumber();
+                cloudFederationList.get(i).setFirstCategoryResourcesNumber(0);
+                cloudFederationList.get(i).setSecondCategoryResourceNumber(0);
+            }
+
+        }else if(option == "PFC"){
+
         }
+
     }
     void setup(String option, double value){
 
@@ -74,7 +85,7 @@ public class Federation {
 
             //calculate first category and second category resources in current Time for each cloud
             List<Packet> currentTimePackets = new ArrayList<Packet>();
-            int currentCommonPoolResources = commonPoolResources*cloudFederationList.size();
+            int currentCommonPoolResources = commonPoolResources;
             if(debug)System.out.println("cp"+ currentCommonPoolResources);
             for(int k = 0; k< cloudFederationList.size();k++){
                 firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
@@ -106,119 +117,13 @@ public class Federation {
             }
 
 
-
-            //System.out.println("KTUAS");
-            //if there are packets in current time calculate
-            /*for(int j=0;j<cloudFederationList.size();j++) {
-                for(int k=0;k<currentTimePackets.size();k++){
-                    if (currentTimePackets.isEmpty() != true) {
-                        int idCloud = currentTimePackets.get(j).getCloudId();
-                        if (currentTimePackets.get(j).isWasServed()==false) {
-                            if (firstCategoryResources[j] > 0) {
-                                firstCategoryResources[j]--;
-                                currentTimePackets.get(j).setWasServed(true);
-                                if (debug) System.out.println("was served by first");
-                            } else if (currentCommonPoolResources > 0) {
-                                currentTimePackets.get(j).setWasServed(true);
-                                System.out.println("Packet from cloud " + currentTimePackets.get(j).getCloudId() + " start time was " + currentTimePackets.get(j).getStartTime() + " id" + currentTimePackets.get(j).getPacketId() + " object id" + currentTimePackets.get(j).toString());
-                                currentCommonPoolResources--;
-                                if (debug) System.out.println("was served by cp");
-
-                            } else if (secondCategoryResources[j] > 0) {
-                                currentTimePackets.get(j).setWasServed(true);
-                                secondCategoryResources[j]--;
-                                if (debug) System.out.println("was served by second");
-                            } else {
-                                currentTimePackets.get(j).setWasServed(false);
-
-                            }
-                        }
-                    }
-                }
-            }*/
             if(debug)System.out.print(currentCommonPoolResources+" ");
 
         }
 
 
 
-
-        /*for(int i = 0;i<Constants.TIME_SIZE;i++){
-            List<Packet> currentTimePackets = new ArrayList<Packet>();
-            int currentCommonPoolResources = commonPoolResources;
-            for(int k = 0; k< cloudFederationList.size();k++){
-                firstCategoryResources[k] = cloudFederationList.get(k).getFirstCategoryResourcesNumber();
-                secondCategoryResources[k] = cloudFederationList.get(k).getSecondCategoryResourceNumber();
-            }
-            /* calculating currentTimePackets *//*
-            for(int j=0;j<packetsInput.size();j++){
-                if(packetsInput.get(j).getStartTime()==i){
-                    currentTimePackets.add(packetsInput.get(j));
-                }
-            }
-            System.out.println("|"+firstCategoryResources+"|");
-            for(int k=0;k<firstCategoryResources.length;k++){
-                System.out.println("|"+firstCategoryResources[k]+"|");
-                System.out.println("|"+secondCategoryResources[k]+"|");
-            }
-
-            for(int j=0;j<2;j++){
-                System.out.println("For i"+i+"for j "+ j);
-                int idCloud = currentTimePackets.get(j).getCloudId();
-                if(firstCategoryResources[j]>0){
-                    firstCategoryResources[j]--;
-                    currentTimePackets.get(j).setWasServed(true);
-                }else if(currentCommonPoolResources>0){
-                    currentTimePackets.get(j).setWasServed(true);
-                    currentCommonPoolResources--;
-                }else if(secondCategoryResources[i]>0){
-                    currentTimePackets.get(j).setWasServed(true);
-                    secondCategoryResources[j]--;
-                }else{
-                    currentTimePackets.get(j).setWasServed(false);
-                }
-            }*/
-
-
         }
 
     }
 
-    /*private List<Cloud> federation;
-    private double publicResourcesNumber;
-    private double temp;
-    public void addFederation(Cloud newCloud){
-        federation.add(newCloud);
-    }
-    public Federation(double temp){
-        this.temp = temp;
-    }
-    private int findSmallestResourceNumber(){
-        int result = federation.get(0).getResourcesNumber();
-        for(int i = 0;i<federation.size();i++){
-            if(result>federation.get(i).getResourcesNumber()){
-                result=federation.get(i).getResourcesNumber();
-            }
-        }
-        return result;
-    }
-
-    private void setPublicResourcesNumber(){
-        int smallest = findSmallestResourceNumber();
-        publicResourcesNumber = temp*smallest;
-    }
-    private int setCategory1PrivateResourcesNumber(){
-        int result=0;
-        return result;
-    }
-    private int setCategory2PrivateResourcesNumber(){
-        int result=0;
-        return result;
-    }
-    public void calculate(){
-        for(int i=0;i<federation.size();i++){
-
-        }
-    }
-
-}*/

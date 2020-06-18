@@ -68,7 +68,7 @@ public class Cloud {
             }
 
         }
-        System.out.println("Cloud: "+cloudId+" packets number: "+(notServedPackets+servedPackets)+" served packets: "+servedPackets+" not served Packets: "+notServedPackets);
+        System.out.println("Cloud: "+cloudId+" with "+resourcesNumber+" own resources "+" packets number: "+(notServedPackets+servedPackets)+" served packets: "+servedPackets+" not served Packets: "+notServedPackets);
     }
     private List<Packet> createPacketList() {
         int numberOfPackets=0;
