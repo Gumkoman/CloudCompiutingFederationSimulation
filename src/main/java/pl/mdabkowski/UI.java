@@ -30,8 +30,17 @@ public class UI {
             }else if(option==5){
                 showPacketInput();
             }else if(option==6){
+                showResults();
+            }
+            else if(option==7){
                 isOn=false;
             }
+        }
+    }
+
+    private void showResults() {
+        for (int i = 0; i < cloudList.size(); i++) {
+            cloudList.get(i).showResult();
         }
     }
 
@@ -52,10 +61,12 @@ public class UI {
         int option = scan.nextInt();
         if(option==1){
             f1.setup("FC");
+            f1.simulate();
         }else if(option==2){
             System.out.println("Currently not working, under development ;(");
         }else if(option==3){
             f1.setup("najwiekszaMozliwaWartosc");
+            f1.simulate();
         }else{
             System.out.println("Wrong option");
         }
@@ -70,7 +81,7 @@ public class UI {
     }
 
     private void showMenu(){
-        System.out.println("Choose options: \n1. Add new cloud\n2. Create simulation of clouds(SC)\n3. Create federation consisting all created clouds\n4. Simulate Federation\n5. Show packet input of each Cloud \n6. Quit application");
+        System.out.println("Choose options: \n1. Add new cloud\n2. Create simulation of clouds(SC)\n3. Create federation consisting all created clouds\n4. Set Federation common pool method\n5. Show packet input of each Cloud \n6. Simulate according to current setup\n7. Quit application");
     }
     private void addNewCloud(){
         int lambda;
@@ -87,9 +98,6 @@ public class UI {
         if(cloudList.size()>0) {
             for (int i = 0; i < cloudList.size(); i++) {
                 cloudList.get(i).simulate();
-            }
-            for (int i = 0; i < cloudList.size(); i++) {
-                cloudList.get(i).showResult();
             }
         }else{
             System.out.println("Unfortunetly there are no clouds added, please add cloud before doing simulation");
