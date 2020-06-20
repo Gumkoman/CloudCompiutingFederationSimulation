@@ -53,7 +53,45 @@ public class Federation {
             }
 
         }else if(option == "PFC"){
+            int lowestRequestRate=cloudFederationList.get(0).getMultiplier();
+            int lowestResourcesNumber=cloudFederationList.get(0).getResourcesNumber();
+            int averageRequestRate=0;
+            for(int i = 0;i<cloudFederationList.size();i++){
+                if(cloudFederationList.get(i).getMultiplier()<lowestRequestRate){
+                    lowestRequestRate = cloudFederationList.get(i).getMultiplier();
+                }
+                if(cloudFederationList.get(i).getResourcesNumber()<lowestResourcesNumber){
+                    lowestResourcesNumber = cloudFederationList.get(i).getResourcesNumber();
+                }
+                averageRequestRate+=cloudFederationList.get(i).getMultiplier();
+            }
+            averageRequestRate = averageRequestRate/cloudFederationList.size();
+            System.out.println("asdasd"+averageRequestRate+" "+lowestRequestRate+" "+lowestResourcesNumber);
+            if(lowestRequestRate>lowestResourcesNumber){
+                setCommonPoolResources(lowestResourcesNumber*cloudFederationList.size());
 
+                for(int i=0; i< cloudFederationList.size();i++){
+                    int privateResources = cloudFederationList.get(i).getResourcesNumber()-(commonPoolResources/cloudFederationList.size());
+                    System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
+                    int tempSecound = privateResources/((cloudFederationList.get(i).getMultiplier()/averageRequestRate)+1);
+                    int tempFirst = privateResources-tempSecound;
+                    cloudFederationList.get(i).setFirstCategoryResourcesNumber(tempFirst);
+                    cloudFederationList.get(i).setSecondCategoryResourceNumber(tempSecound);
+                    System.out.println("KUTAS:"+i+" "+tempSecound+" "+tempFirst);
+                }
+            }else{
+                setCommonPoolResources(lowestRequestRate*cloudFederationList.size());
+                for(int i=0; i< cloudFederationList.size();i++){
+                    int privateResources = cloudFederationList.get(i).getResourcesNumber()-(commonPoolResources/cloudFederationList.size());
+                    System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
+                    int tempSecound = privateResources/((cloudFederationList.get(i).getMultiplier()/averageRequestRate)+1);
+                    int tempFirst = privateResources-tempSecound;
+                    System.out.println("KUTAS:"+i+" "+tempSecound+" "+tempFirst);
+                    cloudFederationList.get(i).setFirstCategoryResourcesNumber(tempFirst);
+                    cloudFederationList.get(i).setSecondCategoryResourceNumber(tempSecound);
+                }
+                System.out.println("KUTAS:"+commonPoolResources);
+            }
         }
 
     }

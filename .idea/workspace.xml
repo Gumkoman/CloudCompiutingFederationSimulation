@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="swus:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="5ac921c1-f3c2-4f72-8aac-454cd3c5fdb3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/swus_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Cloud.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Cloud.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Federation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Federation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Poisson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/Poisson.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/mdabkowski/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Cloud.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Cloud.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Federation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Federation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Poisson.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/Poisson.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pl/mdabkowski/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pl/mdabkowski/UI.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,9 +42,9 @@
   <component name="ProjectId" id="1cU6NkB7WNkQk0XVmBwxTUAfiTF" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

@@ -18,7 +18,7 @@ import static pl.mdabkowski.Poisson.calculate;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Cloud c1 = new Cloud(0,10,Constants.TIME_SIZE,1);
+        /*Cloud c1 = new Cloud(0,10,Constants.TIME_SIZE,1);
         Cloud c2 = new Cloud(1,14,Constants.TIME_SIZE,5);
         Federation f1 = new Federation();
 
@@ -61,7 +61,7 @@ public class Main {
         System.out.println("Packets in each cloud: ");
         for(int i=0;i<cloudList.size();i++){
             showArray(cloudList.get(i).getPoisson());
-        }
+        }*/
         UI ui = new UI();
         ui.start();
 

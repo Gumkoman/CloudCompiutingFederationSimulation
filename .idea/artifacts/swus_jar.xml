@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="swus:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/swus_jar</output-path>
+    <root id="archive" name="swus.jar">
+      <element id="module-output" name="swus" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jfreechart-fx/1.0.1/jfreechart-fx-1.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jfreechart/1.5.0/jfreechart-1.5.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/fxgraphics2d/1.6/fxgraphics2d-1.6.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

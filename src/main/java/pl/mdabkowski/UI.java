@@ -1,5 +1,7 @@
 package pl.mdabkowski;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,13 +10,16 @@ public class UI {
     private boolean isOn = true;
     int cloudNumber=0;
     List<Cloud> cloudList = new ArrayList<Cloud>();
+    FileWriter writer;
     Federation f1 = new Federation();
     public UI(){
         this.isOn=true;
+
     }
 
-    public void start(){
+    public void start() throws IOException {
         System.out.println("Welcome in federation simulation app");
+
         while(isOn){
             showMenu();
             Scanner scan = new Scanner(System.in);
@@ -32,7 +37,7 @@ public class UI {
             }else if(option==6){
                 showResults();
             }
-            else if(option==7){
+            else if(option==0){
                 isOn=false;
             }
         }
@@ -41,6 +46,7 @@ public class UI {
     private void showResults() {
         for (int i = 0; i < cloudList.size(); i++) {
             cloudList.get(i).showResult();
+
         }
     }
 
@@ -63,7 +69,8 @@ public class UI {
             f1.setup("FC");
             f1.simulate();
         }else if(option==2){
-            System.out.println("Currently not working, under development ;(");
+            f1.setup("PFC");
+            f1.simulate();
         }else if(option==3){
             f1.setup("najwiekszaMozliwaWartosc");
             f1.simulate();
@@ -81,17 +88,20 @@ public class UI {
     }
 
     private void showMenu(){
-        System.out.println("Choose options: \n1. Add new cloud\n2. Create simulation of clouds(SC)\n3. Create federation consisting all created clouds\n4. Set Federation common pool method\n5. Show packet input of each Cloud \n6. Simulate according to current setup\n7. Quit application");
+        System.out.println("Choose options: \n1. Add new cloud\n2. Create simulation of clouds(SC)\n3. Create federation consisting all created clouds\n4. Set Federation common pool method\n5. Show packet input of each Cloud \n6. Simulate according to current setup\n7. Make all possible simulation and save result to .csv file\n0. Quit application");
     }
     private void addNewCloud(){
-        int lambda;
+        int lambda,multiplier;
         int resourcesNumber;
         System.out.println("Creating new Cloud!\nPlease provide number of resources of this cloud: ");
         Scanner scan = new Scanner(System.in);
         resourcesNumber = scan.nextInt();
         System.out.println("Please provide poisson distribution number: \n");
         lambda = scan.nextInt();
-        cloudList.add(new Cloud(cloudNumber,resourcesNumber,Constants.TIME_SIZE,lambda));
+        System.out.println("Please provide resources ratio rate: \n");
+        multiplier = scan.nextInt();
+
+        cloudList.add(new Cloud(cloudNumber,resourcesNumber,Constants.TIME_SIZE,lambda,multiplier));
         cloudNumber++;
     }
     private void SCSimulation(){
