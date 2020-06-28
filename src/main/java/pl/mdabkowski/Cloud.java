@@ -25,6 +25,15 @@ public class Cloud {
      private int secondCategoryResourceNumber;
      private List<Packet> packetList;
 
+    public double getCostOfFcFederation() {
+        return costOfFcFederation;
+    }
+
+    public void setCostOfFcFederation(double costOfFcFederation) {
+        this.costOfFcFederation = costOfFcFederation;
+    }
+
+    private double costOfFcFederation;
     public List<Packet> getPacketList() {
         return packetList;
     }
@@ -39,6 +48,7 @@ public class Cloud {
         this.multiplier = multiplier;
         this.poisson = Poisson.calculate(timeSize,lambda,multiplier);
         this.packetList = createPacketList();
+        this.costOfFcFederation=0;
     }
     public void simulate(){
         for(int i = 0;i<TIME_SIZE;i++){
@@ -72,7 +82,8 @@ public class Cloud {
             }
 
         }
-        System.out.println("Cloud: "+cloudId+" with "+resourcesNumber+" own resources "+" packets number: "+(notServedPackets+servedPackets)+" served packets: "+servedPackets+" not served Packets: "+notServedPackets);
+
+        System.out.println("Cloud: "+cloudId+" with "+resourcesNumber+" own resources "+" packets number: "+(notServedPackets+servedPackets)+" served packets: "+servedPackets+" not served Packets: "+notServedPackets+ " cost of it is: "+costOfFcFederation);
     }
     private List<Packet> createPacketList() {
         int numberOfPackets=0;

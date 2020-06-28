@@ -57,6 +57,29 @@ public class Federation {
                 cloudFederationList.get(i).setFirstCategoryResourcesNumber(0);
                 cloudFederationList.get(i).setSecondCategoryResourceNumber(0);
             }
+            int[] resourcesRatio = new int[cloudFederationList.size()];
+            int[] resources = new int[cloudFederationList.size()];
+            for(int i =0;i<cloudFederationList.size();i++){
+                resourcesRatio[i] = cloudFederationList.get(i).getMultiplier();
+                resources[i] = cloudFederationList.get(i).getResourcesNumber();
+            }
+            int sum1 = IntStream.of(resourcesRatio).sum();
+            int sum2 = IntStream.of(resources).sum();
+            double result1 = sum2/cloudFederationList.size();
+            double[] cost = new double[cloudFederationList.size()];
+            System.out.println("sum1 "+sum1);
+            System.out.println("sum2 "+ sum2);
+            System.out.println("result1 "+result1);
+            for(int i =0;i<cloudFederationList.size();i++){
+                cost[i] = resources[i]-result1;
+                System.out.println("TEST");
+                System.out.println("RR "+resourcesRatio[i]);
+                System.out.println("R "+ resources[i]);
+            }
+            for(int i =0;i<cloudFederationList.size();i++){
+                System.out.println("Cost: "+cost[i]+" for clod: "+i);
+                cloudFederationList.get(i).setCostOfFcFederation(cost[i]);
+            }
             setCommonPoolResources(result);
 
         }else if(option == "PFC"){
@@ -168,12 +191,12 @@ public class Federation {
                     currentTimePackets.get(j).setWasServed(true);
                     firstCategoryResources[cloudId]--;
                 }else if(currentCommonPoolResources>0){
-                    if(option=="PFC") {
+                    //if(option=="PFC") {
                         currentNeed[currentTimePackets.get(j).getCloudId()] += 1;
-                    }else if(option == "FC"){
-                        currentTimePackets.get(j).setWasServed(true);
-                        currentCommonPoolResources--;
-                    }
+                    //}else if(option == "FC"){
+                        //currentTimePackets.get(j).setWasServed(true);
+                        //currentCommonPoolResources--;
+                    //}
                 }else if(secondCategoryResources[cloudId]>0){
                     currentTimePackets.get(j).setWasServed(true);
                     secondCategoryResources[cloudId]--;
@@ -182,24 +205,25 @@ public class Federation {
                 }
 
             }
-            if(option=="PFC"){
+            if(option=="PFC"||option=="FC"){
                 int currentNeedFromAllClouds=0;
                 for (int k=0;k<currentNeed.length;k++){
                     currentNeedFromAllClouds+=currentNeed[k];
                 }
                 if(currentNeedFromAllClouds<commonPoolResources){
-                    System.out.println("less : ");
+                   // System.out.println("less : ");
                     for(int k =0;k<currentNeed.length;k++){
                         for(int g=0;g<cloudFederationList.get(k).getPacketList().size();g++){
+                            //System.out.println("Dla czasu i: "+i+" pakiet o czasie : "+cloudFederationList.get(k).getPacketList().get(g).getStartTime()+" czy byl juz obsluzony ? : " +cloudFederationList.get(k).getPacketList().get(g).isWasServed());
                             if(cloudFederationList.get(k).getPacketList().get(g).isWasServed()==false && cloudFederationList.get(k).getPacketList().get(g).getStartTime()== i){
                                 cloudFederationList.get(k).getPacketList().get(g).setWasServed(true);
-                                System.out.println("Obsluzono przy urzyciu cp, dla chmury bez dzielenia zasobow: "+k);
+                                System.out.println("Obsluzono przy urzyciu cp, dla chmury bez dzielenia zasobow: "+k+" w czasie "+ i);
                             }
                         }
                     }
                 }else{
 
-                   int sum = IntStream.of(currentNeed).sum();
+                    int sum = IntStream.of(currentNeed).sum();
                     int[] currentCpForCloud=new int[cloudFederationList.size()];
                     for(int k=0;k<currentCpForCloud.length;k++){
                         currentCpForCloud[k] = (int) (commonPoolResources*currentNeed[k]/sum);
@@ -212,12 +236,14 @@ public class Federation {
                             if(cloudFederationList.get(k).getPacketList().get(g).isWasServed()==false && currentCpForCloud[k]>0){
                                 cloudFederationList.get(k).getPacketList().get(g).setWasServed(true);
                                 currentCpForCloud[k]--;
-                                System.out.println("Obsluzono przy urzyciu cp, dla chmury: "+k);
+                               // System.out.println("Obsluzono przy urzyciu cp, dla chmury: "+k+" w czasie "+ i);
                             }
                         }
                     }
 
                 }
+            }else if(option=="FC"){
+
             }
             if(debug)System.out.print(currentCommonPoolResources+" ");
 
