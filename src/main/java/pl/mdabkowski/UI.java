@@ -36,11 +36,27 @@ public class UI {
                 showPacketInput();
             }else if(option==6){
                 showResults();
-            }
-            else if(option==0){
+            }else if(option==7){
+                showAllresults();
+            }else if(option==0){
                 isOn=false;
             }
         }
+    }
+
+    private void showAllresults() {
+        System.out.println("SC: ");
+        SCSimulation();
+        showResults();
+        System.out.println("FC: ");
+        simulateFederation(1);
+        showResults();
+        System.out.println("PFC: ");
+        simulateFederation(2);
+        showResults();
+
+
+
     }
 
     private void showResults() {
@@ -65,6 +81,20 @@ public class UI {
         System.out.println("Simulating cloud federation\nPlease choose method of creating common Pool:\n1. FC method\n2. PFC\n3. Create common pool as a highest possible resource number");
         Scanner scan = new Scanner(System.in);
         int option = scan.nextInt();
+        if(option==1){
+            f1.setup("FC");
+            f1.simulate();
+        }else if(option==2){
+            f1.setup("PFC");
+            f1.simulate();
+        }else if(option==3){
+            f1.setup("najwiekszaMozliwaWartosc");
+            f1.simulate();
+        }else{
+            System.out.println("Wrong option");
+        }
+    }
+    private void simulateFederation(int option) {
         if(option==1){
             f1.setup("FC");
             f1.simulate();

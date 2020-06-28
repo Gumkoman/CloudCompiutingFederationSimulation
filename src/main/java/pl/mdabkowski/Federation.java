@@ -67,17 +67,17 @@ public class Federation {
             int sum2 = IntStream.of(resources).sum();
             double result1 = sum2/cloudFederationList.size();
             double[] cost = new double[cloudFederationList.size()];
-            System.out.println("sum1 "+sum1);
-            System.out.println("sum2 "+ sum2);
-            System.out.println("result1 "+result1);
+            if(debug)System.out.println("sum1 "+sum1);
+            if(debug)System.out.println("sum2 "+ sum2);
+            if(debug)System.out.println("result1 "+result1);
             for(int i =0;i<cloudFederationList.size();i++){
                 cost[i] = resources[i]-result1;
-                System.out.println("TEST");
-                System.out.println("RR "+resourcesRatio[i]);
-                System.out.println("R "+ resources[i]);
+                if(debug)System.out.println("TEST");
+                if(debug)System.out.println("RR "+resourcesRatio[i]);
+                if(debug)System.out.println("R "+ resources[i]);
             }
             for(int i =0;i<cloudFederationList.size();i++){
-                System.out.println("Cost: "+cost[i]+" for clod: "+i);
+                if(debug)System.out.println("Cost: "+cost[i]+" for clod: "+i);
                 cloudFederationList.get(i).setCostOfFcFederation(cost[i]);
             }
             setCommonPoolResources(result);
@@ -87,6 +87,7 @@ public class Federation {
             int lowestResourcesNumber=cloudFederationList.get(0).getResourcesNumber();
             int averageRequestRate=0;
             for(int i = 0;i<cloudFederationList.size();i++){
+                cloudFederationList.get(i).setCostOfFcFederation(0);
                 if(cloudFederationList.get(i).getMultiplier()<lowestRequestRate){
                     lowestRequestRate = cloudFederationList.get(i).getMultiplier();
                 }
@@ -96,31 +97,31 @@ public class Federation {
                 averageRequestRate+=cloudFederationList.get(i).getMultiplier();
             }
             averageRequestRate = averageRequestRate/cloudFederationList.size();
-            System.out.println("asdasd"+averageRequestRate+" "+lowestRequestRate+" "+lowestResourcesNumber);
+            if(debug)System.out.println("asdasd"+averageRequestRate+" "+lowestRequestRate+" "+lowestResourcesNumber);
             if(lowestRequestRate>lowestResourcesNumber){
                 setCommonPoolResources(lowestResourcesNumber*cloudFederationList.size());
 
                 for(int i=0; i< cloudFederationList.size();i++){
                     int privateResources = cloudFederationList.get(i).getResourcesNumber()-(commonPoolResources/cloudFederationList.size());
-                    System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
+                    if(debug)System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
                     int tempSecound = privateResources/((cloudFederationList.get(i).getMultiplier()/averageRequestRate)+1);
                     int tempFirst = privateResources-tempSecound;
                     cloudFederationList.get(i).setFirstCategoryResourcesNumber(tempFirst);
                     cloudFederationList.get(i).setSecondCategoryResourceNumber(tempSecound);
-                    System.out.println("KUTAS:"+i+" "+tempSecound+" "+tempFirst);
+                    if(debug)System.out.println("KUTAS:"+i+" "+tempSecound+" "+tempFirst);
                 }
             }else{
                 setCommonPoolResources(lowestRequestRate*cloudFederationList.size());
                 for(int i=0; i< cloudFederationList.size();i++){
                     int privateResources = cloudFederationList.get(i).getResourcesNumber()-(commonPoolResources/cloudFederationList.size());
-                    System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
+                    if(debug)System.out.println(privateResources+" "+cloudFederationList.get(i).getMultiplier()+" "+averageRequestRate);
                     int tempSecound = privateResources/((cloudFederationList.get(i).getMultiplier()/averageRequestRate)+1);
                     int tempFirst = privateResources-tempSecound;
-                    System.out.println("KUTAS:"+i+" "+tempSecound+" "+tempFirst);
+                    if(debug)System.out.println("Test:"+i+" "+tempSecound+" "+tempFirst);
                     cloudFederationList.get(i).setFirstCategoryResourcesNumber(tempFirst);
                     cloudFederationList.get(i).setSecondCategoryResourceNumber(tempSecound);
                 }
-                System.out.println("KUTAS:"+commonPoolResources);
+                if(debug)System.out.println("KUTAS:"+commonPoolResources);
             }
         }
 
@@ -137,7 +138,7 @@ public class Federation {
             }
         }
         if(debug){for(int i = 0;i<packetsInput.size();i++){
-            System.out.println("Packet from cloud: "+packetsInput.get(i).getCloudId()+" was started in time: "+ packetsInput.get(i).getStartTime());
+            if(debug)System.out.println("Packet from cloud: "+packetsInput.get(i).getCloudId()+" was started in time: "+ packetsInput.get(i).getStartTime());
         }}
         int[] firstCategoryResources = new int[cloudFederationList.size()];
         int[] secondCategoryResources = new int[cloudFederationList.size()];
@@ -217,7 +218,7 @@ public class Federation {
                             //System.out.println("Dla czasu i: "+i+" pakiet o czasie : "+cloudFederationList.get(k).getPacketList().get(g).getStartTime()+" czy byl juz obsluzony ? : " +cloudFederationList.get(k).getPacketList().get(g).isWasServed());
                             if(cloudFederationList.get(k).getPacketList().get(g).isWasServed()==false && cloudFederationList.get(k).getPacketList().get(g).getStartTime()== i){
                                 cloudFederationList.get(k).getPacketList().get(g).setWasServed(true);
-                                System.out.println("Obsluzono przy urzyciu cp, dla chmury bez dzielenia zasobow: "+k+" w czasie "+ i);
+                                if(debug)System.out.println("Obsluzono przy urzyciu cp, dla chmury bez dzielenia zasobow: "+k+" w czasie "+ i);
                             }
                         }
                     }
@@ -227,9 +228,9 @@ public class Federation {
                     int[] currentCpForCloud=new int[cloudFederationList.size()];
                     for(int k=0;k<currentCpForCloud.length;k++){
                         currentCpForCloud[k] = (int) (commonPoolResources*currentNeed[k]/sum);
-                        System.out.print("loop" );
-                        System.out.print(currentCpForCloud[k]);
-                        System.out.println();
+                        if(debug)System.out.print("loop" );
+                        if(debug)System.out.print(currentCpForCloud[k]);
+                        if(debug)System.out.println();
                     }
                     for(int k=0;k<currentCpForCloud.length;k++){
                         for(int g=0;g<cloudFederationList.get(k).getPacketList().size();g++){
